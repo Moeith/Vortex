@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: black;
+    }
+    canvas {
+      border: 5px solid white;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let angle = 0;
+    let numOfShapes = 30;
+
+    function setup() {
+      const canvasSize = min(windowWidth, windowHeight) * 0.8;
+      createCanvas(canvasSize, canvasSize);
+      colorMode(HSB, 255);
+      background(0);
+      angleMode(DEGREES);
+      rectMode(CENTER);
+      ellipseMode(CENTER);
+    }
+
+    function draw() {
+      background(0, 5);
+      translate(width / 2, height / 2);
+
+      for (let i = 0; i < numOfShapes; i++) {
+        let size = map(i, 0, numOfShapes, width * 0.1, width * 0.8);
+        let offsetX = map(sin(angle * (i + 1)), -1, 1, -width / 4, width / 4);
+        let offsetY = map(cos(angle * (i + 1)), -1, 1, -height / 4 + size / 2, height / 4 - size / 2); // Adjust offsetY range
+        let col = map(i, 0, numOfShapes, 0, 255);
+
+        stroke(col, 255, 255, 100);
+        strokeWeight(2);
+        noFill();
+
+        push();
+        rotate(angle * (i + 1));
+        translate(offsetX, offsetY);
+        rect(0, 0, size, size);
+        ellipse(0, 0, size * 0.8, size * 0.8);
+        triangle(-size / 2, size / 2, size / 2, size / 2, 0, -size / 2);
+        pop();
+      }
+
+      angle += 0.2;
+    }
+  </script>
+</body>
+</html>
